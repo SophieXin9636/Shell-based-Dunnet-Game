@@ -1,0 +1,235 @@
+Students asked questions about how the game should behave.
+The answer is that, in almost every case, it should act like the game (the
+other cases will be discussed below).
+
+
+So I will go through the student questions and show what the game does for
+each case...
+
+******************************************************************************
+Q1: "Your README file said that we can only climb the trees. Does that mean
+     we can't climb the palm?"
+------------------------------------------------------------------------------
+A1: "No. The tree/palm/trees is all the same object (oddly, 'palms' is not).
+     So you do what the game does. And we can learn what the game does by
+     running it:"
+------------------------------------------------------------------------------
+
+% emacs -batch -l dunnet
+
+Dead end
+You are at a dead end of a dirt road.  The road goes to the east.
+In the distance you can see that it will eventually fork off.  The
+trees here are very tall royal palms, and they are spaced equidistant
+from each other.
+There is a shovel here.
+>climb tree
+You manage to get about two feet up the tree and fall back down.  You
+notice that the tree is very unsteady.
+>climb trees
+You manage to get about two feet up the tree and fall back down.  You
+notice that the tree is very unsteady.
+>climb palm
+You manage to get about two feet up the tree and fall back down.  You
+notice that the tree is very unsteady.
+>climb palms
+I don't know what that object is.
+
+
+******************************************************************************
+Q2: "What should happen if I try to climb a tree where there isn't a tree
+     (ie, anywhere except the first two locations)?"
+Q3: "Should the game end if I eat the food?"
+------------------------------------------------------------------------------
+A2/3:"You do what the game does. And we can learn what the game does by
+     running it:"
+------------------------------------------------------------------------------
+
+% emacs -batch -l dunnet
+
+Dead end
+You are at a dead end of a dirt road.  The road goes to the east.
+In the distance you can see that it will eventually fork off.  The
+trees here are very tall royal palms, and they are spaced equidistant
+from each other.
+There is a shovel here.
+>climb tree
+You manage to get about two feet up the tree and fall back down.  You
+notice that the tree is very unsteady.
+>e
+E/W Dirt road
+You are on the continuation of a dirt road.  There are more trees on
+both sides of you.  The road continues to the east and west.
+There is a large boulder here.
+>climb tree
+You manage to get about two feet up the tree and fall back down.  You
+notice that the tree is very unsteady.
+>e
+Fork
+You are at a fork of two passages, one to the northeast, and one to the
+southeast.  The ground here seems very soft. You can also go back west.
+>climb tree
+I don't see that here.
+>se
+SE/NW road
+You are on a southeast/northwest road.
+There is some food here.
+>climb tree
+I don't see that here.
+>eat food
+You don't have that.
+>get food
+Taken.  
+>eat food
+That tasted horrible.
+>i
+You currently have:
+A lamp
+>
+
+As you see, you get an error message when you try to climb a tree that isn't
+there, and the game didn't end when you ate the food.
+
+
+******************************************************************************
+Q4: "What are the messages for shaking all of the objects?"
+Q5: "What are the messages for eating all of the objects?"
+------------------------------------------------------------------------------
+A4/5:"You do what the game does. And we can learn what the game does by
+     running it:"
+------------------------------------------------------------------------------
+
+% emacs -batch -l dunnet
+
+Dead end
+You are at a dead end of a dirt road.  The road goes to the east.
+In the distance you can see that it will eventually fork off.  The
+trees here are very tall royal palms, and they are spaced equidistant
+from each other.
+There is a shovel here.
+>get shovel
+Taken.  
+>e
+E/W Dirt road
+You are on the continuation of a dirt road.  There are more trees on
+both sides of you.  The road continues to the east and west.
+There is a large boulder here.
+>e
+Fork
+You are at a fork of two passages, one to the northeast, and one to the
+southeast.  The ground here seems very soft. You can also go back west.
+>dig
+I think you found something.
+>get all
+A computer board: Taken.  
+>se
+SE/NW road
+You are on a southeast/northwest road.
+There is some food here.
+>get food
+Taken.  
+>se
+Bear hangout
+You are standing at the end of a road.  A passage leads back to the
+northwest.
+There is a ferocious bear here!
+>sw
+Hidden area
+There is an emerald bracelet here.
+>get emerald
+Taken.  
+>ne
+Bear hangout
+There is a ferocious bear here!
+>i
+You currently have:
+A lamp
+A shovel
+A computer board
+Some food
+A bracelet
+>shake lamp
+Shaking a lamp seems to have no effect.
+>shake shovel
+Shaking a shovel seems to have no effect.
+>shake cpu
+Shaking a computer board seems to have no effect.
+>shake food
+Shaking some food seems to have no effect.
+>shake emerald
+Shaking a bracelet seems to have no effect.
+>throw food
+Done.
+The bear takes the food and runs away with it. He left something behind.
+>shake key
+You don't have that.
+>get key
+Taken.  
+>i
+You currently have:
+A lamp
+A shovel
+A computer board
+A bracelet
+A brass key
+>shake key
+Shaking a brass key seems to have no effect.
+>se
+You can't go that way.
+>eat key
+You forcefully shove a brass key down your throat, and start choking.
+
+You are dead.
+You have scored 0 out of a possible 90 points.
+
+%
+
+In the above, we see that eating anything except the food will kill you.
+We also see that the message about what you are shoving down your throat
+uses the same descriptions for objects as the "i" command does (except
+that the first letter is not capitalized). Similarly, the shake messages
+also use these same descriptions.
+(As an additional observation from the above walkthrough, notice in the
+above that moving "se" from the "Bear hangout" only kills you if the
+bear is still there.)
+
+
+******************************************************************************
+Q6: "What if you supply more arguments than needed?"
+------------------------------------------------------------------------------
+A6: "You do what the game does. And we can learn what the game does by
+     running it:"
+------------------------------------------------------------------------------
+
+% emacs -batch -l dunnet
+
+Dead end
+You are at a dead end of a dirt road.  The road goes to the east.
+In the distance you can see that it will eventually fork off.  The
+trees here are very tall royal palms, and they are spaced equidistant
+from each other.
+There is a shovel here.
+>get shovel dfdfdf
+Taken.  
+>eat shovel dfdfgdfgdg h gfh gfh  ghgfh gfh
+>eat shovel
+You forcefully shove a shovel down your throat, and start choking.
+
+You are dead.
+You have scored 0 out of a possible 90 points.
+
+%
+
+As we see, the game ignores extra arguments.
+
+
+******************************************************************************
+Q7: "Can I use aliases in my cshell script?"
+A7: "Yes, you can. But the syntax of cshell aliases is a little different than
+     for bash. The difference is that it uses a space instead of an =.
+
+
+******************************************************************************
+Q8: "I used google and found there are tricks with the '/dev/...' directory
+     that might allow cshell to get the '2>' syntax. Can I use these tricks?"
+A8: "No. (One reason to not allow it is that it isn't standard.)"

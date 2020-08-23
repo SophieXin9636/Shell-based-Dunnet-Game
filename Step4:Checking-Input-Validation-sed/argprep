@@ -1,0 +1,109 @@
+#!/bin/sed -f
+:START
+s/[ ]*insert$/&/; s/^[ ]*put$/&/;
+s/[ ]*throw$/&/; s/[ ]*drop$/&/;
+s/[ ]*take$/&/; s/^[ ]*get$/&/;
+s/[ ]*eat$/&/;
+s/[ ]*shake$/&/;
+s/[ ]*climb$/&/;
+TCKCMD
+s/[ ]*climb$/&/;
+tCLIMBTREE
+
+s/.*/You must supply an object./; bEND
+
+:CLIMBTREE
+N;
+s/climb.*\(tree\|trees\|palms\|palm\).*/c \1/; 
+TTHEREISNOTHINGHERETOCLIMB
+bEND
+
+:THEREISNOTHINGHERETOCLIMB
+s/.*/There is nothing here to climb./; q
+
+:CKCMD
+s/[ ]*insert/put/; s/^[ ]*put/p/;
+s/[ ]*throw/drop/; s/[ ]*\(drop\|throw\)/d/;
+s/[ ]*take/get/; s/^[ ]*get/g/;
+s/[ ]*eat/e/;
+s/[ ]*climb/c/;
+s/[ ]*shake/s/;
+s/[ ]*x .*/&/;
+s/[ ]*l .*/&/;
+tCMDOK
+s/[ ]*i.*/i/;
+s/[ ]*x[ ]*$/l/;
+s/[ ]*l[ ]*$/l/;
+tEND
+
+s/.*/I don\'t understand that/; bQUIT
+
+
+:CMDOK
+s/palm\|palms\|tree\|trees/tree/;
+s/bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax/&/;
+s/emerald/bracelet/g;
+s/cpu/board/;
+s/g all/&/;
+tARGOK
+
+s/.*/I do not know what that is./; bEND
+
+:ARGOK
+s/l [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*/x \1/;
+s/d [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*/d \1/;
+s/^p [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\)$/You must supply an indirect object./;
+tEND
+
+# check obj position whether the object is in this location.
+s/g [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\|all\).*/g \1/;
+s/c [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*/c \1/;
+tCKOBJPOS1
+# check obj position whether obj is in this location, or in the inventory.
+s/x [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*/x \1/;
+s/s [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*/s \1/;
+tCKOBJPOS2
+s/e [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*/e \1/;
+s/^p [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*/&/;
+TIDontKnowWhatThatIs
+
+s/^p [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\) [ ]*[^ ]*$/You must supply an indirect object./;
+tEND
+s/^p [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\) [ ]*\([^ ]*\) [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*/p \1 \2 \3/;
+s/^p [ ]*\(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\) [ ]*\([^ ]*\) [ ]*shovel.*/p \1 \2 shovel @/;
+TIDoNotKnowWhatThatIndirectObjectIs
+q;
+
+:CKOBJPOS1
+N;
+s/g all/&/;
+tEND
+s/g \(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*\1.*/g \1/;
+s/c \(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*\1.*/c \1/;
+TIDoNotSeeThatHere
+q;
+
+:CKOBJPOS2
+N
+s/x \(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*\1.*/x \1/;
+s/s \(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*\1.*/s \1/;
+
+TOBJISNOTHERE
+q;
+
+:OBJISNOTHERE
+s/x \(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*/x \1 @/;
+s/s \(bear\|board\|bin\|bins\|boulder\|bracelet\|cabinet\|card\|coconut\|coconuts\|computer\|cpu\|emerald\|flashing\|food\|key\|lamp\|palm\|shovel\|steady\|tree\|trees\|vax\).*/s \1 @/;
+q;
+
+:END q;
+:QUIT n;D;q;
+
+:IDontKnowWhatThatIs
+s/^p.*/I do not know what that is./; q
+
+:IDoNotKnowWhatThatIndirectObjectIs
+s/^p.*/I do not know what that indirect object is./; q
+
+:IDoNotSeeThatHere
+s/.*/I do not see that here./; q

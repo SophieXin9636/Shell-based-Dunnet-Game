@@ -1,0 +1,4 @@
+ls ~/O/$* &> ~/X && (ls ~/O/$* &> ~/X && ls ~/I/$* &> ~/X ||
+echo "You do not have that.")|| echo "I do not know what that is."
+ls ~/O/$* &> ~/X && ls ~/I/$* &> ~/X || exit
+mv ~/I/$* . &> ~/X; echo "Done."; ls [be][mr]* 2> ~/X | xargs cat 2> ~/X | fgrep bracelet &> ~/X && mv ~/I/[be][mr]* . &> ~/X; ls [bc][apo]*[ud] 2> ~/X | xargs cat 2> ~/X | fgrep board &> ~/X && mv ~/I/[bc][apo]*[ud] . &> ~/X; ls [k][e]* 2> ~/X | xargs cat 2> ~/X | fgrep $* &> ~/X && chmod 400 ~/PA2/start/e/e/ne/ne/ne/n ~/PA2/start/e/e/ne/ne/ne; ls [f][o]* 2> ~/X | xargs cat 2> ~/X | fgrep $* &> ~/X && ls .[k]* &> ~/X && echo "The bear takes the food and runs away with it. He left something behind." && rm [fb][oe][oa][dr] &> ~/X && mv .key key &> ~/X;
